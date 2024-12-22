@@ -1,0 +1,10 @@
+{
+    "Fluids": {
+        "boundary_layers": {
+            "overall": 0,
+            "notes.pdf": true,
+            "problems.pdf": true,
+            "solutions.pdf": true
+        }
+    }
+}

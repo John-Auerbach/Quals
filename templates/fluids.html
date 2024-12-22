@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluids</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .header a {
+            color: #4caf50;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            margin: 20px 0 5px; 
+            display: inline-block;
+        }
+        .overall-progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0 20px; 
+        }
+        .overall-progress-bar {
+            width: 50%;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .overall-progress {
+            height: 10px;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+        }
+        .cover-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .content-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        .topic {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .topic:hover {
+            background-color: #3a3a3a;
+        }
+        .topic-title {
+            display: flex;
+            align-items: center;
+        }
+        .caret {
+            margin-right: 10px;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+        .caret.open {
+            transform: rotate(90deg);
+        }
+        .progress-bar {
+            width: 30%;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-left: 10px;
+        }
+        .progress {
+            height: 10px;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+        }
+        .subtopics {
+            display: none;
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+        .subtopics.open {
+            display: block;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <a href="/">← Back to Dashboard</a>
+    </div>
+    <!-- Cover Image -->
+    <img src="/templates/fluids.jpg" alt="Fluids Cover" class="cover-image">
+    <!-- Title -->
+    <h1>Fluids</h1>
+    <!-- Overall Progress Bar -->
+    <div class="overall-progress-container">
+        <div class="overall-progress-bar">
+            <div id="overall-progress" class="overall-progress" style="width: 0%;"></div>
+        </div>
+    </div>
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Topics -->
+        <div class="section">
+            <!-- Boundary Layers -->
+            <div class="topic" onclick="toggleSubtopics('boundary-layers')">
+                <div class="topic-title">
+                    <span class="caret" id="caret-boundary-layers">▶</span>
+                    Boundary Layers
+                </div>
+                <div class="progress-bar">
+                    <div id="boundary-layers-progress" class="progress" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div id="subtopics-boundary-layers" class="subtopics">
+                <ul>
+                    <li>
+                        <input type="checkbox" class="subtopic-checkbox" data-topic="boundary-layers">
+                        <a href="/download/fluids/boundary_layers/notes.pdf" target="_blank">Notes</a>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="subtopic-checkbox" data-topic="boundary-layers">
+                        <a href="/download/fluids/boundary_layers/problems.pdf" target="_blank">Problems</a>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="subtopic-checkbox" data-topic="boundary-layers">
+                        <a href="/download/fluids/boundary_layers/solutions.pdf" target="_blank">Solutions</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Navier-Stokes -->
+            <div class="topic" onclick="toggleSubtopics('navier-stokes')">
+                <div class="topic-title">
+                    <span class="caret" id="caret-navier-stokes">▶</span>
+                    Navier-Stokes Equations
+                </div>
+                <div class="progress-bar">
+                    <div id="navier-stokes-progress" class="progress" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div id="subtopics-navier-stokes" class="subtopics">
+                <ul>
+                    <li>
+                        <input type="checkbox" class="subtopic-checkbox" data-topic="navier-stokes">
+                        <a href="/download/fluids/navier_stokes/notes.pdf" target="_blank">Notes</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Lift and Drag -->
+            <div class="topic" onclick="toggleSubtopics('lift-drag')">
+                <div class="topic-title">
+                    <span class="caret" id="caret-lift-drag">▶</span>
+                    Lift and Drag
+                </div>
+                <div class="progress-bar">
+                    <div id="lift-drag-progress" class="progress" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div id="subtopics-lift-drag" class="subtopics">
+                <ul>
+                    <li>
+                        <input type="checkbox" class="subtopic-checkbox" data-topic="lift-drag">
+                        <a href="/download/fluids/lift_drag/notes.pdf" target="_blank">Notes</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Airfoils -->
+            <div class="topic" onclick="toggleSubtopics('airfoils')">
+                <div class="topic-title">
+                    <span class="caret" id="caret-airfoils">▶</span>
+                    Airfoils
+                </div>
+                <div class="progress-bar">
+                    <div id="airfoils-progress" class="progress" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div id="subtopics-airfoils" class="subtopics">
+                <ul>
+                    <li>
+                        <input type="checkbox" class="subtopic-checkbox" data-topic="airfoils">
+                        <a href="/download/fluids/airfoils/notes.pdf" target="_blank">Notes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubtopics(topic) {
+            const subtopics = document.getElementById(`subtopics-${topic}`);
+            const caret = document.getElementById(`caret-${topic}`);
+            subtopics.classList.toggle('open');
+            caret.classList.toggle('open');
+        }
+
+        function updateProgress(topic) {
+            const checkboxes = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topic}"]`);
+            const total = checkboxes.length;
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const progress = total > 0 ? (completed / total) * 100 : 0;
+
+            const progressBar = document.getElementById(`${topic}-progress`);
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+
+            updateOverallProgress();
+        }
+
+        function updateOverallProgress() {
+            const checkboxes = document.querySelectorAll(".subtopic-checkbox");
+            const total = checkboxes.length;
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const progress = total > 0 ? (completed / total) * 100 : 0;
+
+            const progressBar = document.getElementById("overall-progress");
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        document.querySelectorAll(".subtopic-checkbox").forEach(checkbox => {
+            checkbox.addEventListener("change", (event) => {
+                const topic = event.target.getAttribute("data-topic");
+                updateProgress(topic);
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const topics = ["boundary-layers", "navier-stokes", "lift-drag", "airfoils"];
+            topics.forEach(topic => updateProgress(topic));
+        });
+    </script>
+</body>
+</html>

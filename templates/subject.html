@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject }} Study Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .topic {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .topic h2 {
+            margin: 0 0 10px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 5px 0;
+        }
+        ul li input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        ul li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ subject }}</h1>
+    <a href="/" style="display: inline-block; margin-bottom: 20px;">← Back to Dashboard</a>
+
+    <div id="topics">
+        {% for topic in topics %}
+        <div class="topic">
+            <h2>{{ topic.name }}</h2>
+            <div class="progress-bar">
+                <div class="progress" id="progress-{{ topic.name }}" style="width: {{ topic.progress }}%;"></div>
+            </div>
+            <ul>
+                {% for file in topic.files %}
+                <li>
+                    <input type="checkbox" 
+                           class="file-checkbox" 
+                           data-subject="{{ subject }}" 
+                           data-topic="{{ topic.name }}" 
+                           data-file="{{ file }}" 
+                           {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}>
+                    <a href="/download/{{ subject | lower }}/{{ topic.name }}/{{ file }}">{{ file }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.querySelectorAll(".file-checkbox").forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                const subject = this.dataset.subject;
+                const topic = this.dataset.topic;
+                const file = this.dataset.file;
+                const isChecked = this.checked;
+
+                fetch("/update_progress", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ subject, topic, file, isChecked })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        const progressBar = document.getElementById(`progress-${topic}`);
+                        progressBar.style.width = `${data.newProgress}%`;
+                    }
+                })
+                .catch(error => console.error("Error updating progress:", error));
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Dark mode background */
+    color: white;
+}
+
+/* Cover Section */
+.cover {
+    text-align: center;
+    padding: 40px 20px;
+    background: url('cover.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.cover h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
+    padding: 10px;
+    color: white;
+}
+
+.cover h2 {
+    font-size: 24px;
+    font-weight: lighter;
+    margin: 0;
+    color: white;
+    opacity: 0.8;
+}
+
+/* Dashboard Section */
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    width: 250px;
+    margin: 15px;
+    background-color: #1e1e1e; /* Slightly lighter shade for the cards */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.progress-bar {
+    width: 80%;
+    height: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    margin: 10px auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.progress-percent {
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
