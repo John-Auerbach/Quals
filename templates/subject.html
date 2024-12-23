@@ -5,134 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ subject }} Study Dashboard</title>
     <style>
-        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
-            color: #e0e0e0;
+            color: #ffffff;
             margin: 0;
             padding: 0;
+            text-align: center;
         }
-
-        a {
-            color: #4fc3f7;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .header a {
+            color: #4caf50;
             text-decoration: none;
+            font-size: 16px;
         }
-
-        a:hover {
+        .header a:hover {
             text-decoration: underline;
         }
-
         h1 {
-            text-align: center;
-            margin: 20px 0;
+            margin: 20px 0 5px; 
+            display: inline-block;
         }
-
-        .cover-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .topic {
-            margin: 20px auto;
-            border: 1px solid #424242;
-            border-radius: 10px;
-            background-color: #1e1e1e;
-            width: 90%;
-            padding: 15px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .topic h2 {
-            margin: 0;
+        .overall-progress-container {
             display: flex;
             align-items: center;
-            cursor: pointer;
-            font-size: 1.2em;
+            justify-content: center;
+            margin: 10px 0 20px; 
         }
-
-        .topic h2:hover {
-            color: #4fc3f7;
-        }
-
-        .caret {
-            display: inline-block;
-            margin-right: 10px;
-            border-top: 5px solid #e0e0e0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            transition: transform 0.3s ease;
-        }
-
-        .caret.collapsed {
-            transform: rotate(-90deg);
-        }
-
-        .progress-bar {
-            width: 100%;
-            background-color: #424242;
+        .overall-progress-bar {
+            width: 50%;
+            background-color: #333;
             border-radius: 5px;
             overflow: hidden;
-            margin: 10px 0;
-            height: 10px;
         }
-
-        .progress {
-            height: 100%;
+        .overall-progress {
+            height: 10px;
             background-color: #4caf50;
             transition: width 0.3s ease;
         }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            display: none; /* Default to hidden */
+        .cover-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
-
-        ul li {
-            margin: 10px 0;
+        .content-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        .topic {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .topic:hover {
+            background-color: #3a3a3a;
+        }
+        .topic-title {
             display: flex;
             align-items: center;
         }
-
-        ul li input[type="checkbox"] {
+        .caret {
             margin-right: 10px;
-            cursor: pointer;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
         }
-
-        ul li a {
+        .caret.open {
+            transform: rotate(90deg);
+        }
+        .progress-bar {
+            width: 30%;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-left: 10px;
+        }
+        .progress {
+            height: 10px;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+        }
+        .subtopics {
+            display: none;
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+        .subtopics.open {
+            display: block;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            color: #007bff;
             text-decoration: none;
-            color: #4fc3f7;
-            flex-grow: 1;
         }
-
-        ul li a:hover {
+        a:hover {
             text-decoration: underline;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- Header Section -->
+    <div class="header">
+        <a href="/">← Back to Dashboard</a>
+    </div>
+    <!-- Cover Image -->
     <img src="{{ url_for('static', filename='fluids.jpg') }}" alt="Fluids Cover" class="cover-image">
+    <!-- Title -->
     <h1>{{ subject }} Study Dashboard</h1>
-    <a href="/" style="display: inline-block; margin: 20px;">← Back to Dashboard</a>
-
-    <div id="topics">
+    <!-- Overall Progress Bar -->
+    <div class="overall-progress-container">
+        <div class="overall-progress-bar">
+            <div id="overall-progress" class="overall-progress" style="width: 0%;"></div>
+        </div>
+    </div>
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Topics -->
         {% for topic in topics %}
-        <div class="topic">
-            <h2 onclick="toggleTopic('{{ topic.name }}')">
-                <span class="caret" id="caret-{{ topic.name }}"></span>
+        <div class="topic" onclick="toggleSubtopics('{{ topic.name }}')">
+            <div class="topic-title">
+                <span class="caret" id="caret-{{ topic.name }}">▶</span>
                 {{ topic.name }}
-            </h2>
-            <div class="progress-bar">
-                <div class="progress" id="progress-{{ topic.name }}" style="width: {{ topic.progress }}%;"></div>
             </div>
-            <ul id="files-{{ topic.name }}">
+            <div class="progress-bar">
+                <div id="progress-{{ topic.name }}" class="progress" style="width: {{ topic.progress }}%;"></div>
+            </div>
+        </div>
+        <div id="subtopics-{{ topic.name }}" class="subtopics">
+            <ul>
                 {% for file in topic.files %}
                 <li>
                     <input type="checkbox" 
-                           class="file-checkbox" 
-                           data-subject="{{ subject }}" 
+                           class="subtopic-checkbox" 
                            data-topic="{{ topic.name }}" 
                            data-file="{{ file }}" 
                            {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}>
@@ -145,41 +170,49 @@
     </div>
 
     <script>
-        // Function to toggle the visibility of the file list
-        function toggleTopic(topicName) {
-            const filesList = document.getElementById(`files-${topicName}`);
-            const caret = document.getElementById(`caret-${topicName}`);
-            if (filesList.style.display === "block") {
-                filesList.style.display = "none";
-                caret.classList.add("collapsed");
-            } else {
-                filesList.style.display = "block";
-                caret.classList.remove("collapsed");
+        function toggleSubtopics(topic) {
+            const subtopics = document.getElementById(`subtopics-${topic}`);
+            const caret = document.getElementById(`caret-${topic}`);
+            subtopics.classList.toggle('open');
+            caret.classList.toggle('open');
+        }
+
+        function updateProgress(topic) {
+            const checkboxes = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topic}"]`);
+            const total = checkboxes.length;
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const progress = total > 0 ? (completed / total) * 100 : 0;
+
+            const progressBar = document.getElementById(`progress-${topic}`);
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+
+            updateOverallProgress();
+        }
+
+        function updateOverallProgress() {
+            const checkboxes = document.querySelectorAll(".subtopic-checkbox");
+            const total = checkboxes.length;
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const progress = total > 0 ? (completed / total) * 100 : 0;
+
+            const progressBar = document.getElementById("overall-progress");
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
             }
         }
 
-        // Update progress dynamically when a checkbox is toggled
-        document.querySelectorAll(".file-checkbox").forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                const subject = this.dataset.subject;
-                const topic = this.dataset.topic;
-                const file = this.dataset.file;
-                const isChecked = this.checked;
-
-                fetch("/update_progress", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ subject, topic, file, isChecked })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        const progressBar = document.getElementById(`progress-${topic}`);
-                        progressBar.style.width = `${data.newProgress}%`;
-                    }
-                })
-                .catch(error => console.error("Error updating progress:", error));
+        document.querySelectorAll(".subtopic-checkbox").forEach(checkbox => {
+            checkbox.addEventListener("change", (event) => {
+                const topic = event.target.getAttribute("data-topic");
+                updateProgress(topic);
             });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const topics = [{% for topic in topics %}"{{ topic.name }}",{% endfor %}];
+            topics.forEach(topic => updateProgress(topic));
         });
     </script>
 </body>
