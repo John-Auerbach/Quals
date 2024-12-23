@@ -140,10 +140,10 @@
         }
         .chart-container {
             position: absolute;
-            right: 20px;
-            top: 150px;
-            width: 300px;
-            height: 300px;
+            right: 10%;
+            top: 350px;
+            width: 500px;
+            height: 500px;
         }
     </style>
 </head>
@@ -219,7 +219,7 @@
         </div>
     </div>
     <div class="chart-container">
-        <canvas id="progressPieChart" width="300" height="300"></canvas>
+        <canvas id="progressPieChart" width="400" height="400"></canvas>
     </div>
     <script>
         function toggleSubtopics(topic) {
@@ -280,7 +280,7 @@
         const ctx = canvas.getContext('2d');
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) - 10; // Padding from edges
+        const radius = Math.min(centerX, centerY) - 50; // Shrink chart radius
 
         const topics = {{ topics | tojson }};
 
@@ -311,6 +311,16 @@
                     ctx.fillStyle = '#4caf50'; // Completion green color
                     ctx.fill();
                 }
+
+                // Add topic labels
+                const midAngle = startAngle + (sliceAngle / 2);
+                const labelX = centerX + (radius + 30) * Math.cos(midAngle);
+                const labelY = centerY + (radius + 30) * Math.sin(midAngle);
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "12px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText(topic.name, labelX, labelY);
 
                 startAngle = endAngle;
             });
