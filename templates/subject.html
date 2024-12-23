@@ -61,7 +61,7 @@
             background-color: #1e1e1e;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-            max-width: 600px; /* Limit the width of the content container */
+            max-width: 600px;
         }
         .topics-container {
             width: 100%;
@@ -116,6 +116,11 @@
         .subtopics.open {
             display: block;
         }
+        .subtopic-category {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
         ul {
             list-style-type: none;
             padding: 0;
@@ -151,7 +156,7 @@
         </div>
     </div>
     <!-- Content Container -->
-    <div class="content-container" style="margin-left: 20px;">
+    <div class="content-container">
         <!-- Topics Title -->
         <div class="topics-title">Topics</div>
         <!-- Topics Container -->
@@ -167,16 +172,45 @@
                 </div>
             </div>
             <div id="subtopics-{{ topic.name }}" class="subtopics">
+                <div class="subtopic-category">Notes</div>
                 <ul>
-                    {% for file in topic.files %}
+                    {% for file in topic.notes %}
                     <li>
                         <input type="checkbox" 
                                class="subtopic-checkbox" 
                                data-topic="{{ topic.name }}" 
                                data-file="{{ file }}" 
-                               {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}
-                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked)">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/{{ file }}">{{ file }}</a>
+                               {% if progress.get(subject, {}).get(topic.name, {}).get('notes', {}).get(file, False) %}checked{% endif %}
+                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'notes')">
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Notes/{{ file }}">{{ file }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="subtopic-category">Practice</div>
+                <ul>
+                    {% for file in topic.practice %}
+                    <li>
+                        <input type="checkbox" 
+                               class="subtopic-checkbox" 
+                               data-topic="{{ topic.name }}" 
+                               data-file="{{ file }}" 
+                               {% if progress.get(subject, {}).get(topic.name, {}).get('practice', {}).get(file, False) %}checked{% endif %}
+                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'practice')">
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Practice/{{ file }}">{{ file }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="subtopic-category">Exam</div>
+                <ul>
+                    {% for file in topic.exam %}
+                    <li>
+                        <input type="checkbox" 
+                               class="subtopic-checkbox" 
+                               data-topic="{{ topic.name }}" 
+                               data-file="{{ file }}" 
+                               {% if progress.get(subject, {}).get(topic.name, {}).get('exam', {}).get(file, False) %}checked{% endif %}
+                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'exam')">
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Exam/{{ file }}">{{ file }}</a>
                     </li>
                     {% endfor %}
                 </ul>
@@ -192,7 +226,7 @@
             caret.classList.toggle('open');
         }
 
-        function updateFileProgress(topic, file, isChecked) {
+        function updateFileProgress(topic, file, isChecked, category) {
             fetch("/update_progress", {
                 method: "POST",
                 headers: {
@@ -202,6 +236,7 @@
                     subject: "{{ subject }}",
                     topic: topic,
                     file: file,
+                    category: category,
                     isChecked: isChecked
                 }),
             }).then(response => response.json())

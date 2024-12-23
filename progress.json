@@ -1,28 +1,64 @@
 {
     "Fluids": {
         "boundary_layers": {
-            "overall": 100,
+            "overall": 66,
             "notes.pdf": true,
             "problems.pdf": true,
-            "solutions.pdf": true
+            "solutions.pdf": true,
+            "notes": {
+                "notes.pdf": false
+            },
+            "practice": {
+                "problems.pdf": true
+            },
+            "exam": {
+                "solutions.pdf": true
+            }
         },
         "airfoils": {
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 66
+            "overall": 100,
+            "notes": {
+                "notes.pdf": true
+            },
+            "practice": {
+                "problems.pdf": true
+            },
+            "exam": {
+                "solutions.pdf": true
+            }
         },
         "lift_and_drag": {
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true,
-            "overall": 100
+            "overall": 33,
+            "notes": {
+                "notes.pdf": true
+            },
+            "practice": {
+                "problems.pdf": false
+            },
+            "exam": {
+                "solutions.pdf": false
+            }
         },
         "navier-stokes": {
             "notes.pdf": false,
             "problems.pdf": false,
             "solutions.pdf": false,
-            "overall": 0
+            "overall": 0,
+            "notes": {
+                "notes.pdf": false
+            },
+            "practice": {
+                "problems.pdf": false
+            },
+            "exam": {
+                "solutions.pdf": false
+            }
         }
     }
 }

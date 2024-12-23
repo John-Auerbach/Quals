@@ -50,28 +50,53 @@ def subject_page(subject):
     for topic in os.listdir(subject_dir):
         topic_dir = os.path.join(subject_dir, topic)
         if os.path.isdir(topic_dir):
-            files = os.listdir(topic_dir)
+            categories = {"notes": [], "practice": [], "exam": []}
+
+            # Scan category directories
+            for category in categories.keys():
+                category_dir = os.path.join(topic_dir, category.capitalize())
+                if os.path.exists(category_dir):
+                    categories[category] = os.listdir(category_dir)
+
+            # Initialize progress for the topic if not already present
             if subject not in progress:
                 progress[subject] = {}
             if topic not in progress[subject]:
-                progress[subject][topic] = {file: False for file in files}
+                progress[subject][topic] = {cat: {} for cat in categories.keys()}
 
-            completed_files = sum(progress[subject][topic].get(file, False) for file in files)
-            overall_progress = int((completed_files / len(files)) * 100) if files else 0
+            # Initialize progress for each file in each category
+            for category, files in categories.items():
+                if category not in progress[subject][topic]:
+                    progress[subject][topic][category] = {}
+                for file in files:
+                    if file not in progress[subject][topic][category]:
+                        progress[subject][topic][category][file] = False
+
+            # Calculate overall progress for the topic
+            completed_files = sum(
+                progress[subject][topic][cat].get(file, False)
+                for cat, files in categories.items()
+                for file in files
+            )
+            total_files = sum(len(files) for files in categories.values())
+            overall_progress = int((completed_files / total_files) * 100) if total_files else 0
             progress[subject][topic]["overall"] = overall_progress
 
+            # Append the topic details
             topics.append({
                 "name": topic,
-                "files": files,
+                "notes": categories["notes"],
+                "practice": categories["practice"],
+                "exam": categories["exam"],
                 "progress": overall_progress
             })
 
     save_progress()
     return render_template("subject.html", subject=subject, topics=topics, progress=progress)
 
-@app.route("/download/<subject>/<topic>/<file>")
-def download_file(subject, topic, file):
-    directory = os.path.join(STUDY_MATERIALS_DIR, subject.lower(), topic)
+@app.route("/download/<subject>/<topic>/<category>/<file>")
+def download_file(subject, topic, category, file):
+    directory = os.path.join(STUDY_MATERIALS_DIR, subject.lower(), topic, category.capitalize())
     if os.path.exists(os.path.join(directory, file)):
         return send_from_directory(directory=directory, path=file, as_attachment=True)
     else:
@@ -83,6 +108,7 @@ def update_progress():
     subject = data["subject"]
     topic = data["topic"]
     file = data["file"]
+    category = data["category"]
     is_checked = data["isChecked"]
 
     if subject not in progress:
@@ -90,12 +116,18 @@ def update_progress():
     if topic not in progress[subject]:
         progress[subject][topic] = {}
 
-    progress[subject][topic][file] = is_checked
+    if category not in progress[subject][topic]:
+        progress[subject][topic][category] = {}
 
-    topic_dir = os.path.join(STUDY_MATERIALS_DIR, subject.lower(), topic)
+    progress[subject][topic][category][file] = is_checked
+
+    topic_dir = os.path.join(STUDY_MATERIALS_DIR, subject.lower(), topic, category.capitalize())
     if os.path.exists(topic_dir):
-        total_files = len(os.listdir(topic_dir))
-        completed_files = sum(1 for f in progress[subject][topic].values() if f is True)
+        total_files = sum(len(files) for files in progress[subject][topic].values() if isinstance(files, dict))
+        completed_files = sum(
+            1 for files in progress[subject][topic].values() if isinstance(files, dict)
+            for f in files.values() if f is True
+        )
         new_progress = int((completed_files / total_files) * 100) if total_files else 0
         progress[subject][topic]["overall"] = new_progress
 
