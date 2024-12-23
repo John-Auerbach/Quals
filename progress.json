@@ -1,10 +1,28 @@
 {
     "Fluids": {
         "boundary_layers": {
-            "overall": 0,
+            "overall": 100,
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true
+        },
+        "airfoils": {
+            "notes.pdf": true,
+            "problems.pdf": false,
+            "solutions.pdf": false,
+            "overall": 33
+        },
+        "lift_and_drag": {
+            "notes.pdf": false,
+            "problems.pdf": false,
+            "solutions.pdf": false,
+            "overall": 0
+        },
+        "navier-stokes": {
+            "notes.pdf": false,
+            "problems.pdf": false,
+            "solutions.pdf": false,
+            "overall": 0
         }
     }
 }
