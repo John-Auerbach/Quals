@@ -9,8 +9,8 @@
         "airfoils": {
             "notes.pdf": true,
             "problems.pdf": true,
-            "solutions.pdf": true,
-            "overall": 100
+            "solutions.pdf": false,
+            "overall": 66
         },
         "lift_and_drag": {
             "notes.pdf": true,

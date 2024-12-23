@@ -11,7 +11,6 @@
             color: #ffffff;
             margin: 0;
             padding: 0;
-            text-align: center;
         }
         .header {
             display: flex;
@@ -28,14 +27,14 @@
             text-decoration: underline;
         }
         h1 {
-            margin: 20px 0 5px; 
-            display: inline-block;
+            margin: 20px 0 5px;
+            text-align: center;
         }
         .overall-progress-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 10px 0 20px; 
+            margin: 10px 0 20px;
         }
         .overall-progress-bar {
             width: 50%;
@@ -54,11 +53,23 @@
             object-fit: cover;
         }
         .content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             margin: 20px;
-            padding: 20px;
+            padding: 10px;
             background-color: #1e1e1e;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+            max-width: 600px; /* Limit the width of the content container */
+        }
+        .topics-container {
+            width: 100%;
+        }
+        .topics-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
         .topic {
             display: flex;
@@ -140,36 +151,39 @@
         </div>
     </div>
     <!-- Content Container -->
-    <div class="content-container">
-        <!-- Topics -->
-        {% for topic in topics %}
-        <div class="topic" onclick="toggleSubtopics('{{ topic.name }}')">
-            <div class="topic-title">
-                <span class="caret" id="caret-{{ topic.name }}">▶</span>
-                {{ topic.name }}
+    <div class="content-container" style="margin-left: 20px;">
+        <!-- Topics Title -->
+        <div class="topics-title">Topics</div>
+        <!-- Topics Container -->
+        <div class="topics-container">
+            {% for topic in topics %}
+            <div class="topic" onclick="toggleSubtopics('{{ topic.name }}')">
+                <div class="topic-title">
+                    <span class="caret" id="caret-{{ topic.name }}">▶</span>
+                    {{ topic.name }}
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-{{ topic.name }}" class="progress" style="width: {{ topic.progress }}%;"></div>
+                </div>
             </div>
-            <div class="progress-bar">
-                <div id="progress-{{ topic.name }}" class="progress" style="width: {{ topic.progress }}%;"></div>
+            <div id="subtopics-{{ topic.name }}" class="subtopics">
+                <ul>
+                    {% for file in topic.files %}
+                    <li>
+                        <input type="checkbox" 
+                               class="subtopic-checkbox" 
+                               data-topic="{{ topic.name }}" 
+                               data-file="{{ file }}" 
+                               {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}
+                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked)">
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/{{ file }}">{{ file }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
+            {% endfor %}
         </div>
-        <div id="subtopics-{{ topic.name }}" class="subtopics">
-            <ul>
-                {% for file in topic.files %}
-                <li>
-                    <input type="checkbox" 
-                           class="subtopic-checkbox" 
-                           data-topic="{{ topic.name }}" 
-                           data-file="{{ file }}" 
-                           {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}
-                           onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked)">
-                    <a href="/download/{{ subject | lower }}/{{ topic.name }}/{{ file }}">{{ file }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endfor %}
     </div>
-
     <script>
         function toggleSubtopics(topic) {
             const subtopics = document.getElementById(`subtopics-${topic}`);

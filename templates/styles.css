@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #121212; /* Dark mode background */
-    color: white;
+    color: #ffffff;
 }
 
 /* Cover Section */
@@ -20,14 +20,14 @@ body {
     font-weight: bold;
     margin: 0;
     padding: 10px;
-    color: white;
+    color: #ffffff;
 }
 
 .cover h2 {
     font-size: 24px;
     font-weight: lighter;
     margin: 0;
-    color: white;
+    color: #ffffff;
     opacity: 0.8;
 }
 
@@ -35,7 +35,7 @@ body {
 .dashboard {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start; /* Align elements to the left */
     padding: 20px;
 }
 
@@ -60,6 +60,7 @@ body {
     font-size: 18px;
     font-weight: bold;
     margin: 10px 0;
+    color: #ffffff;
 }
 
 .progress-bar {
@@ -83,6 +84,26 @@ body {
     font-size: 14px;
     font-weight: bold;
     position: absolute;
-    bottom: 10px;
+    bottom: -20px;
     right: 10px;
+    color: #ffffff;
+}
+
+/* Topics Container */
+.topics-container {
+    width: 50%;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #1e1e1e; /* Match card background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    float: left;
+}
+
+/* Ensure no overlap with other floating elements */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
 }
