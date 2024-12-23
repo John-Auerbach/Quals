@@ -6,13 +6,13 @@
             "problems.pdf": true,
             "solutions.pdf": true,
             "notes": {
-                "notes.pdf": false
+                "notes.pdf": true
             },
             "practice": {
                 "problems.pdf": true
             },
             "exam": {
-                "solutions.pdf": true
+                "solutions.pdf": false
             }
         },
         "airfoils": {
@@ -51,15 +51,15 @@
             "notes.pdf": false,
             "problems.pdf": false,
             "solutions.pdf": false,
-            "overall": 0,
+            "overall": 100,
             "notes": {
-                "notes.pdf": false
+                "notes.pdf": true
             },
             "practice": {
-                "problems.pdf": false
+                "problems.pdf": true
             },
             "exam": {
-                "solutions.pdf": false
+                "solutions.pdf": true
             }
         }
     }

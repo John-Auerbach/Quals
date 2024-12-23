@@ -138,28 +138,28 @@
         input[type="checkbox"] {
             margin-right: 10px;
         }
+        .chart-container {
+            position: absolute;
+            right: 20px;
+            top: 150px;
+            width: 300px;
+            height: 300px;
+        }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
     <div class="header">
         <a href="/">← Back to Dashboard</a>
     </div>
-    <!-- Cover Image -->
     <img src="/static/{{ subject.lower() }}.jpg" alt="{{ subject }} Cover" class="cover-image">
-    <!-- Title -->
     <h1>{{ subject }} Study Dashboard</h1>
-    <!-- Overall Progress Bar -->
     <div class="overall-progress-container">
         <div class="overall-progress-bar">
             <div id="overall-progress" class="overall-progress" style="width: 0%;"></div>
         </div>
     </div>
-    <!-- Content Container -->
     <div class="content-container">
-        <!-- Topics Title -->
         <div class="topics-title">Topics</div>
-        <!-- Topics Container -->
         <div class="topics-container">
             {% for topic in topics %}
             <div class="topic" onclick="toggleSubtopics('{{ topic.name }}')">
@@ -218,6 +218,9 @@
             {% endfor %}
         </div>
     </div>
+    <div class="chart-container">
+        <canvas id="progressPieChart" width="300" height="300"></canvas>
+    </div>
     <script>
         function toggleSubtopics(topic) {
             const subtopics = document.getElementById(`subtopics-${topic}`);
@@ -269,43 +272,35 @@
             if (progressBar) {
                 progressBar.style.width = `${progress}%`;
             }
+
+            drawPieChart();
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const topics = [{% for topic in topics %}"{{ topic.name }}",{% endfor %}];
-            topics.forEach(topic => updateProgress(topic));
-        });
-    </script>
-    
-    <div class="chart-container" style="position: absolute; right: 20px; top: 150px; width: 300px; height: 300px;">
-        <canvas id="progressPieChart" width="300" height="300"></canvas>
-    </div>
-    <script>
-        const topics = {{ topics | tojson }};
         const canvas = document.getElementById('progressPieChart');
         const ctx = canvas.getContext('2d');
-    
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const radius = Math.min(centerX, centerY) - 10; // Padding from edges
-    
-        // Function to draw the pie chart
+
+        const topics = {{ topics | tojson }};
+
         function drawPieChart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
             let startAngle = -Math.PI / 2; // Start from top
             const totalTasks = topics.reduce((sum, topic) => sum + topic.total_files, 0);
-    
+
             topics.forEach(topic => {
                 const sliceAngle = (topic.total_files / totalTasks) * 2 * Math.PI;
                 const endAngle = startAngle + sliceAngle;
-    
+
                 // Draw the base slice (total tasks)
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.arc(centerX, centerY, radius, startAngle, endAngle);
                 ctx.closePath();
-                ctx.fillStyle = '#ccc'; // Base gray color
+                ctx.fillStyle = '#333'; // Darker gray color for the base
                 ctx.fill();
-    
+
                 // Draw the completed portion (radial fill)
                 const completionRadius = (topic.completed_files / topic.total_files) * radius;
                 if (completionRadius > 0) {
@@ -316,33 +311,26 @@
                     ctx.fillStyle = '#4caf50'; // Completion green color
                     ctx.fill();
                 }
-    
+
                 startAngle = endAngle;
             });
         }
-    
-        // Function to update the topic progress and redraw the chart
-        function updateProgress(topicName) {
-            const topic = topics.find(t => t.name === topicName);
-            const totalCompleted = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topicName}"]:checked`).length;
-            topic.completed_files = totalCompleted;
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-            drawPieChart(); // Redraw the chart
-        }
-    
-        // Initial draw of the chart
-        drawPieChart();
-    
-        // Listen for changes to checkboxes and update the chart
+
+        document.addEventListener("DOMContentLoaded", () => {
+            topics.forEach(topic => {
+                topic.completed_files = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topic.name}"]:checked`).length;
+            });
+            drawPieChart();
+        });
+
         document.addEventListener('change', (event) => {
             if (event.target.classList.contains('subtopic-checkbox')) {
                 const topicName = event.target.getAttribute('data-topic');
-                updateProgress(topicName);
+                const topic = topics.find(t => t.name === topicName);
+                topic.completed_files = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topicName}"]:checked`).length;
+                updateOverallProgress();
             }
         });
     </script>
-    
-    
-    
 </body>
 </html>
