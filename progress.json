@@ -1,7 +1,7 @@
 {
     "Fluids": {
         "boundary_layers": {
-            "overall": 33,
+            "overall": 0,
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true,
@@ -9,7 +9,7 @@
                 "notes.pdf": false
             },
             "practice": {
-                "problems.pdf": true
+                "problems.pdf": false
             },
             "exam": {
                 "solutions.pdf": false
@@ -19,7 +19,7 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 100,
+            "overall": 80,
             "notes": {
                 "notes.pdf": true
             },
@@ -27,7 +27,7 @@
                 "problems.pdf": true
             },
             "exam": {
-                "solutions.pdf": true,
+                "solutions.pdf": false,
                 "solutions - Copy (2).pdf": true,
                 "solutions - Copy.pdf": true
             }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ subject }} Study Dashboard</title>
+    <title>{{ subject }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@
             padding: 10px 20px;
         }
         .header a {
-            color: #4caf50;
+            color: #ffffff;
             text-decoration: none;
             font-size: 16px;
         }
@@ -140,7 +140,7 @@
         }
         .chart-container {
             position: absolute;
-            right: 10%;
+            right: 12%;
             top: 350px;
             width: 500px;
             height: 500px;
@@ -152,7 +152,7 @@
         <a href="/">← Back to Dashboard</a>
     </div>
     <img src="/static/{{ subject.lower() }}.jpg" alt="{{ subject }} Cover" class="cover-image">
-    <h1>{{ subject }} Study Dashboard</h1>
+    <h1>{{ subject }}</h1>
     <div class="overall-progress-container">
         <div class="overall-progress-bar">
             <div id="overall-progress" class="overall-progress" style="width: 0%;"></div>
@@ -219,7 +219,7 @@
         </div>
     </div>
     <div class="chart-container">
-        <canvas id="progressPieChart" width="400" height="400"></canvas>
+        <canvas id="progressPieChart" width="550" height="550"></canvas>
     </div>
     <script>
         let animationFrame;
@@ -282,7 +282,7 @@
         const ctx = canvas.getContext('2d');
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) - 50; // Shrink chart radius
+        const radius = Math.min(centerX, centerY) - 100; // Shrink chart radius
 
         const topics = {{ topics | tojson }};
 
