@@ -22,7 +22,23 @@ def save_progress():
 @app.route("/")
 def dashboard():
     subjects = ["Fluids", "Math", "Dynamics", "Structures"]
-    return render_template("dashboard.html", subjects=subjects)
+    overall_progress = {}
+
+    # Calculate overall progress for each subject
+    for subject in subjects:
+        if subject in progress:
+            subject_progress = [
+                topic_data["overall"]
+                for topic, topic_data in progress[subject].items()
+                if isinstance(topic_data, dict) and "overall" in topic_data
+            ]
+            overall_progress[subject] = (
+                int(sum(subject_progress) / len(subject_progress)) if subject_progress else 0
+            )
+        else:
+            overall_progress[subject] = 0
+
+    return render_template("dashboard.html", subjects=subjects, overall_progress=overall_progress)
 
 @app.route("/subject/<subject>")
 def subject_page(subject):
@@ -88,4 +104,3 @@ def update_progress():
 
 if __name__ == "__main__":
     app.run(debug=True)
-

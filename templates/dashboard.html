@@ -103,42 +103,17 @@
     <img src="/static/cover.jpg" alt="Cover Image" class="cover-image">
     <h1>PhD Qualifying Exam</h1>
     <div class="dashboard-container">
-        <a href="/subject/Fluids" class="card">
-            <img src="/static/fluids.jpg" alt="Fluids">
+        {% for subject in subjects %}
+        <a href="/subject/{{ subject }}" class="card">
+            <img src="/static/{{ subject.lower() }}.{{ 'webp' if subject == 'Structures' else 'jpg' }}" alt="{{ subject }}">
             <div class="card-content">
-                <span class="card-title">Fluids</span>
+                <span class="card-title">{{ subject }}</span>
                 <div class="progress-bar">
-                    <div class="progress" style="width: 45%;"></div>
+                    <div class="progress" style="width: {{ overall_progress[subject] }}%;"></div>
                 </div>
             </div>
         </a>
-        <a href="/subject/Math" class="card">
-            <img src="/static/math.jpg" alt="Math">
-            <div class="card-content">
-                <span class="card-title">Math</span>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 90%;"></div>
-                </div>
-            </div>
-        </a>
-        <a href="/subject/Structures" class="card">
-            <img src="/static/structures.webp" alt="Structures">
-            <div class="card-content">
-                <span class="card-title">Structures</span>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 40%;"></div>
-                </div>
-            </div>
-        </a>
-        <a href="/subject/Dynamics" class="card">
-            <img src="/static/dynamics.jpg" alt="Dynamics">
-            <div class="card-content">
-                <span class="card-title">Dynamics</span>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 80%;"></div>
-                </div>
-            </div>
-        </a>
+        {% endfor %}
     </div>
     <div class="countdown-container">
         <div class="countdown-title">Countdown to Qualifying Exam - October 2025</div>
@@ -171,7 +146,7 @@
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const minutes = Math.floor((distance % (1000 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             document.getElementById("days").textContent = days;

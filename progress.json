@@ -7,16 +7,16 @@
             "solutions.pdf": true
         },
         "airfoils": {
-            "notes.pdf": false,
+            "notes.pdf": true,
             "problems.pdf": true,
-            "solutions.pdf": false,
-            "overall": 33
+            "solutions.pdf": true,
+            "overall": 100
         },
         "lift_and_drag": {
-            "notes.pdf": false,
-            "problems.pdf": false,
-            "solutions.pdf": false,
-            "overall": 0
+            "notes.pdf": true,
+            "problems.pdf": true,
+            "solutions.pdf": true,
+            "overall": 100
         },
         "navier-stokes": {
             "notes.pdf": false,

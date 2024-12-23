@@ -130,7 +130,7 @@
         <a href="/">← Back to Dashboard</a>
     </div>
     <!-- Cover Image -->
-    <img src="{{ url_for('static', filename='fluids.jpg') }}" alt="Fluids Cover" class="cover-image">
+    <img src="/static/{{ subject.lower() }}.jpg" alt="{{ subject }} Cover" class="cover-image">
     <!-- Title -->
     <h1>{{ subject }} Study Dashboard</h1>
     <!-- Overall Progress Bar -->
@@ -160,7 +160,8 @@
                            class="subtopic-checkbox" 
                            data-topic="{{ topic.name }}" 
                            data-file="{{ file }}" 
-                           {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}>
+                           {% if progress.get(subject, {}).get(topic.name, {}).get(file, False) %}checked{% endif %}
+                           onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked)">
                     <a href="/download/{{ subject | lower }}/{{ topic.name }}/{{ file }}">{{ file }}</a>
                 </li>
                 {% endfor %}
@@ -175,6 +176,24 @@
             const caret = document.getElementById(`caret-${topic}`);
             subtopics.classList.toggle('open');
             caret.classList.toggle('open');
+        }
+
+        function updateFileProgress(topic, file, isChecked) {
+            fetch("/update_progress", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    subject: "{{ subject }}",
+                    topic: topic,
+                    file: file,
+                    isChecked: isChecked
+                }),
+            }).then(response => response.json())
+              .then(data => {
+                  updateProgress(topic);
+              });
         }
 
         function updateProgress(topic) {
@@ -202,13 +221,6 @@
                 progressBar.style.width = `${progress}%`;
             }
         }
-
-        document.querySelectorAll(".subtopic-checkbox").forEach(checkbox => {
-            checkbox.addEventListener("change", (event) => {
-                const topic = event.target.getAttribute("data-topic");
-                updateProgress(topic);
-            });
-        });
 
         document.addEventListener("DOMContentLoaded", () => {
             const topics = [{% for topic in topics %}"{{ topic.name }}",{% endfor %}];
