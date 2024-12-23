@@ -330,7 +330,8 @@
             topics.forEach(topic => {
                 topic.completed_files = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topic.name}"]:checked`).length;
             });
-            drawPieChart();
+            updateOverallProgress(); // Update overall progress bar on page load
+            drawPieChart(); // Draw pie chart on page load
         });
 
         document.addEventListener('change', (event) => {
