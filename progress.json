@@ -19,7 +19,7 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 60,
+            "overall": 100,
             "notes": {
                 "notes.pdf": true
             },
@@ -27,9 +27,9 @@
                 "problems.pdf": true
             },
             "exam": {
-                "solutions.pdf": false,
+                "solutions.pdf": true,
                 "solutions - Copy (2).pdf": true,
-                "solutions - Copy.pdf": false
+                "solutions - Copy.pdf": true
             }
         },
         "lift_and_drag": {
@@ -51,9 +51,9 @@
             "notes.pdf": false,
             "problems.pdf": false,
             "solutions.pdf": false,
-            "overall": 100,
+            "overall": 66,
             "notes": {
-                "notes.pdf": true
+                "notes.pdf": false
             },
             "practice": {
                 "problems.pdf": true

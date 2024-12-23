@@ -222,6 +222,8 @@
         <canvas id="progressPieChart" width="400" height="400"></canvas>
     </div>
     <script>
+        let animationFrame;
+
         function toggleSubtopics(topic) {
             const subtopics = document.getElementById(`subtopics-${topic}`);
             const caret = document.getElementById(`caret-${topic}`);
@@ -285,45 +287,62 @@
         const topics = {{ topics | tojson }};
 
         function drawPieChart() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-            let startAngle = -Math.PI / 2; // Start from top
-            const totalTasks = topics.reduce((sum, topic) => sum + topic.total_files, 0);
+            const steps = 20; // Number of animation steps
+            let currentStep = 0;
+            const initialState = topics.map(topic => ({
+                name: topic.name,
+                completedFiles: topic.completed_files,
+                totalFiles: topic.total_files
+            }));
 
-            topics.forEach(topic => {
-                const sliceAngle = (topic.total_files / totalTasks) * 2 * Math.PI;
-                const endAngle = startAngle + sliceAngle;
+            function animateStep() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let startAngle = -Math.PI / 2;
+                initialState.forEach(topic => {
+                    const targetProgress = topic.completedFiles / topic.totalFiles;
+                    const currentProgress = targetProgress * (currentStep / steps);
 
-                // Draw the base slice (total tasks)
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                ctx.closePath();
-                ctx.fillStyle = '#333'; // Darker gray color for the base
-                ctx.fill();
+                    const sliceAngle = (topic.totalFiles / topics.reduce((sum, t) => sum + t.total_files, 0)) * 2 * Math.PI;
+                    const endAngle = startAngle + sliceAngle;
 
-                // Draw the completed portion (radial fill)
-                const completionRadius = (topic.completed_files / topic.total_files) * radius;
-                if (completionRadius > 0) {
+                    // Draw the base slice
                     ctx.beginPath();
                     ctx.moveTo(centerX, centerY);
-                    ctx.arc(centerX, centerY, completionRadius, startAngle, endAngle);
+                    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
                     ctx.closePath();
-                    ctx.fillStyle = '#4caf50'; // Completion green color
+                    ctx.fillStyle = '#333';
                     ctx.fill();
+
+                    // Draw the completed progress slice
+                    if (currentProgress > 0) {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.arc(centerX, centerY, radius * currentProgress, startAngle, endAngle);
+                        ctx.closePath();
+                        ctx.fillStyle = '#4caf50';
+                        ctx.fill();
+                    }
+
+                    // Add topic labels
+                    const midAngle = startAngle + sliceAngle / 2;
+                    const labelX = centerX + (radius + 30) * Math.cos(midAngle);
+                    const labelY = centerY + (radius + 30) * Math.sin(midAngle);
+
+                    ctx.fillStyle = "#ffffff";
+                    ctx.font = "12px Arial";
+                    ctx.textAlign = "center";
+                    ctx.fillText(topic.name, labelX, labelY);
+
+                    startAngle = endAngle;
+                });
+
+                currentStep++;
+                if (currentStep <= steps) {
+                    requestAnimationFrame(animateStep);
                 }
+            }
 
-                // Add topic labels
-                const midAngle = startAngle + (sliceAngle / 2);
-                const labelX = centerX + (radius + 30) * Math.cos(midAngle);
-                const labelY = centerY + (radius + 30) * Math.sin(midAngle);
-
-                ctx.fillStyle = "#ffffff";
-                ctx.font = "12px Arial";
-                ctx.textAlign = "center";
-                ctx.fillText(topic.name, labelX, labelY);
-
-                startAngle = endAngle;
-            });
+            animateStep();
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -331,7 +350,6 @@
                 topic.completed_files = document.querySelectorAll(`.subtopic-checkbox[data-topic="${topic.name}"]:checked`).length;
             });
             updateOverallProgress(); // Update overall progress bar on page load
-            drawPieChart(); // Draw pie chart on page load
         });
 
         document.addEventListener('change', (event) => {
