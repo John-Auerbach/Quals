@@ -52,19 +52,16 @@ def subject_page(subject):
         if os.path.isdir(topic_dir):
             categories = {"notes": [], "practice": [], "exam": []}
 
-            # Scan category directories
             for category in categories.keys():
                 category_dir = os.path.join(topic_dir, category.capitalize())
                 if os.path.exists(category_dir):
                     categories[category] = os.listdir(category_dir)
 
-            # Initialize progress for the topic if not already present
             if subject not in progress:
                 progress[subject] = {}
             if topic not in progress[subject]:
                 progress[subject][topic] = {cat: {} for cat in categories.keys()}
 
-            # Initialize progress for each file in each category
             for category, files in categories.items():
                 if category not in progress[subject][topic]:
                     progress[subject][topic][category] = {}
@@ -72,7 +69,6 @@ def subject_page(subject):
                     if file not in progress[subject][topic][category]:
                         progress[subject][topic][category][file] = False
 
-            # Calculate overall progress for the topic
             completed_files = sum(
                 progress[subject][topic][cat].get(file, False)
                 for cat, files in categories.items()
@@ -82,12 +78,13 @@ def subject_page(subject):
             overall_progress = int((completed_files / total_files) * 100) if total_files else 0
             progress[subject][topic]["overall"] = overall_progress
 
-            # Append the topic details
             topics.append({
                 "name": topic,
                 "notes": categories["notes"],
                 "practice": categories["practice"],
                 "exam": categories["exam"],
+                "total_files": total_files,
+                "completed_files": completed_files,
                 "progress": overall_progress
             })
 

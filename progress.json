@@ -19,7 +19,7 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 100,
+            "overall": 60,
             "notes": {
                 "notes.pdf": true
             },
@@ -27,14 +27,16 @@
                 "problems.pdf": true
             },
             "exam": {
-                "solutions.pdf": true
+                "solutions.pdf": true,
+                "solutions - Copy (2).pdf": false,
+                "solutions - Copy.pdf": false
             }
         },
         "lift_and_drag": {
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true,
-            "overall": 33,
+            "overall": 66,
             "notes": {
                 "notes.pdf": true
             },
@@ -42,7 +44,7 @@
                 "problems.pdf": false
             },
             "exam": {
-                "solutions.pdf": false
+                "solutions.pdf": true
             }
         },
         "navier-stokes": {

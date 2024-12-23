@@ -107,3 +107,10 @@ body {
     display: table;
     clear: both;
 }
+
+.chart-container {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
