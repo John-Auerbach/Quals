@@ -7,8 +7,8 @@
             "solutions.pdf": true
         },
         "airfoils": {
-            "notes.pdf": true,
-            "problems.pdf": false,
+            "notes.pdf": false,
+            "problems.pdf": true,
             "solutions.pdf": false,
             "overall": 33
         },

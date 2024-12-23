@@ -53,6 +53,14 @@ def subject_page(subject):
     save_progress()
     return render_template("subject.html", subject=subject, topics=topics, progress=progress)
 
+@app.route("/download/<subject>/<topic>/<file>")
+def download_file(subject, topic, file):
+    directory = os.path.join(STUDY_MATERIALS_DIR, subject.lower(), topic)
+    if os.path.exists(os.path.join(directory, file)):
+        return send_from_directory(directory=directory, path=file, as_attachment=True)
+    else:
+        return "File not found.", 404
+
 @app.route("/update_progress", methods=["POST"])
 def update_progress():
     data = request.json
@@ -80,3 +88,4 @@ def update_progress():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
