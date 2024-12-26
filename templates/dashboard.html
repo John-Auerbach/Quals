@@ -111,10 +111,12 @@
                 <div class="progress-bar">
                     <div class="progress" 
                          style="width: {{ overall_progress[subject] }}%; 
-                                background-color: {% if subject == 'Fluids' %} #FFA500 
-                                                  {% elif subject == 'Math' %} #800080 
-                                                  {% elif subject == 'Dynamics' %} #0000FF 
-                                                  {% elif subject == 'Structures' %} #FF0000 
+                                background-color: {% if subject == 'Fluids' %} #FFB347 
+                                {% elif subject == 'Math' %} #9B59B6 
+                                {% elif subject == 'Dynamics' %} #4682B4 
+                                {% elif subject == 'Structures' %} #FF6961 
+
+
                                                   {% else %} #4caf50 {% endif %};">
                     </div>
                 </div>                

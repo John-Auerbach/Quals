@@ -151,7 +151,7 @@
         }
     </style>
 </head>
-<body style="--progress-color: {% if subject == 'Fluids' %}#FFA500{% elif subject == 'Math' %}#800080{% elif subject == 'Dynamics' %}#0000FF{% elif subject == 'Structures' %}#FF0000{% else %}#4caf50{% endif %};">
+<body style="--progress-color: {% if subject == 'Fluids' %}#FFB347{% elif subject == 'Math' %}#9B59B6{% elif subject == 'Dynamics' %}#4682B4{% elif subject == 'Structures' %}#FF6961{% else %}#4caf50{% endif %};">
     <div class="header">
         <a href="/">← Back to Dashboard</a>
     </div>
@@ -342,10 +342,10 @@
 
             function getColorForSubject(subject) {
                 switch (subject) {
-                    case 'Fluids': return '#FFA500'; // Orange
-                    case 'Math': return '#800080'; // Purple
-                    case 'Dynamics': return '#0000FF'; // Blue
-                    case 'Structures': return '#FF0000'; // Red
+                    case 'Fluids': return '#FFB347'; // Orange
+                    case 'Math': return '#9B59B6'; // Purple
+                    case 'Dynamics': return '#4682B4'; // Blue
+                    case 'Structures': return '#FF6961'; // Red
                     default: return '#4caf50'; // Default green
                 }
             }
