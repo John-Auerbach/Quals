@@ -1,15 +1,15 @@
 {
     "Fluids": {
         "boundary_layers": {
-            "overall": 33,
+            "overall": 100,
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true,
             "notes": {
-                "notes.pdf": false
+                "notes.pdf": true
             },
             "practice": {
-                "problems.pdf": false
+                "problems.pdf": true
             },
             "exam": {
                 "solutions.pdf": true
@@ -19,7 +19,7 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 80,
+            "overall": 40,
             "notes": {
                 "notes.pdf": true
             },
@@ -28,20 +28,20 @@
             },
             "exam": {
                 "solutions.pdf": false,
-                "solutions - Copy (2).pdf": true,
-                "solutions - Copy.pdf": true
+                "solutions - Copy (2).pdf": false,
+                "solutions - Copy.pdf": false
             }
         },
         "lift_and_drag": {
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true,
-            "overall": 100,
+            "overall": 33,
             "notes": {
-                "notes.pdf": true
+                "notes.pdf": false
             },
             "practice": {
-                "problems.pdf": true
+                "problems.pdf": false
             },
             "exam": {
                 "solutions.pdf": true
@@ -56,10 +56,10 @@
                 "notes.pdf": true
             },
             "practice": {
-                "problems.pdf": false
+                "problems.pdf": true
             },
             "exam": {
-                "solutions.pdf": true
+                "solutions.pdf": false
             }
         }
     }

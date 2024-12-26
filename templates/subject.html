@@ -241,7 +241,7 @@
                 if (st !== subtopics && st.classList.contains('open')) {
                     st.style.maxHeight = `${st.scrollHeight}px`; // Ensure correct height is set before collapsing
                     requestAnimationFrame(() => {
-                        st.style.transition = "max-height 0.2s ease";
+                        st.style.transition = "max-height 0.1s ease";
                         st.style.maxHeight = "0px";
                         st.classList.remove('open');
                     });
@@ -257,7 +257,7 @@
                 subtopics.style.maxHeight = "0px"; // Reset max-height to ensure proper transition
                 subtopics.classList.add('open');
                 requestAnimationFrame(() => {
-                    subtopics.style.transition = "max-height 0.2s ease";
+                    subtopics.style.transition = "max-height 0.1s ease";
                     subtopics.style.maxHeight = `${subtopics.scrollHeight}px`;
                 });
 
@@ -266,7 +266,7 @@
                 // Close the clicked topic (if already open)
                 subtopics.style.maxHeight = `${subtopics.scrollHeight}px`; // Ensure correct height is set before collapsing
                 requestAnimationFrame(() => {
-                    subtopics.style.transition = "max-height 0.2s ease";
+                    subtopics.style.transition = "max-height 0.1s ease";
                     subtopics.style.maxHeight = "0px";
                     subtopics.classList.remove('open');
                 });
