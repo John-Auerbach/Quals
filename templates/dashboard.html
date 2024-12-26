@@ -109,8 +109,15 @@
             <div class="card-content">
                 <span class="card-title">{{ subject }}</span>
                 <div class="progress-bar">
-                    <div class="progress" style="width: {{ overall_progress[subject] }}%;"></div>
-                </div>
+                    <div class="progress" 
+                         style="width: {{ overall_progress[subject] }}%; 
+                                background-color: {% if subject == 'Fluids' %} #FFA500 
+                                                  {% elif subject == 'Math' %} #800080 
+                                                  {% elif subject == 'Dynamics' %} #0000FF 
+                                                  {% elif subject == 'Structures' %} #FF0000 
+                                                  {% else %} #4caf50 {% endif %};">
+                    </div>
+                </div>                
             </div>
         </a>
         {% endfor %}
