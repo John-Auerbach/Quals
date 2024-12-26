@@ -115,8 +115,6 @@
                                 {% elif subject == 'Math' %} #9B59B6 
                                 {% elif subject == 'Dynamics' %} #4682B4 
                                 {% elif subject == 'Structures' %} #FF6961 
-
-
                                                   {% else %} #4caf50 {% endif %};">
                     </div>
                 </div>                
@@ -127,7 +125,8 @@
     <div class="progress-bar" style="width: 80%; margin: 20px auto;">
         <div class="progress" style="width: {{ overall_percentage }}%;"></div>
     </div>
-    <p>Overall Progress: {{ overall_percentage }}%</p>    
+    <p>Overall Progress: {{ overall_percentage }}%</p>
+    <p id="required-progress"></p>
     <div class="countdown-container">
         <div class="countdown-title">Countdown to Qualifying Exam - October 2025</div>
         <div class="countdown" id="countdown">
@@ -158,7 +157,18 @@
     
 
     <script>
+        const startDate = new Date("2025-01-01T00:00:00Z").getTime();
         const targetDate = new Date("2025-10-01T04:00:00Z").getTime(); // 12:00 AM EST is 4:00 AM UTC
+
+        function calculateRequiredProgress() {
+            const now = new Date().getTime();
+            const totalDuration = targetDate - startDate;
+            const elapsedDuration = now - startDate;
+
+            const progressRequired = ((elapsedDuration / totalDuration) * 100).toFixed(2);
+
+            document.getElementById("required-progress").textContent = `Required Progress to Stay on Track: ${progressRequired}%`;
+        }
 
         function updateCountdown() {
             const now = new Date().getTime(); // Current time in milliseconds
@@ -178,9 +188,11 @@
                 clearInterval(countdownInterval);
                 document.getElementById("countdown").innerHTML = "Exam Day!";
             }
+
+            calculateRequiredProgress();
         }
 
-const countdownInterval = setInterval(updateCountdown, 1000);
+        const countdownInterval = setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
