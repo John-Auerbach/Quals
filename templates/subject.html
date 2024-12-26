@@ -234,21 +234,47 @@
             const allSubtopics = document.querySelectorAll('.subtopics');
             const allCarets = document.querySelectorAll('.caret');
 
-            allSubtopics.forEach(st => {
-                if (st !== subtopics) {
-                    st.classList.remove('open');
+            allSubtopics.forEach((st, index) => {
+                const otherCaret = allCarets[index];
+
+                // If this is not the clicked topic and it is open, close it
+                if (st !== subtopics && st.classList.contains('open')) {
+                    st.style.maxHeight = `${st.scrollHeight}px`; // Ensure correct height is set before collapsing
+                    requestAnimationFrame(() => {
+                        st.style.transition = "max-height 0.2s ease";
+                        st.style.maxHeight = "0px";
+                        st.classList.remove('open');
+                    });
+
+                    if (otherCaret) {
+                        otherCaret.classList.remove('open');
+                    }
                 }
             });
 
-            allCarets.forEach(c => {
-                if (c !== caret) {
-                    c.classList.remove('open');
-                }
-            });
+            if (!subtopics.classList.contains('open')) {
+                // Open the clicked topic
+                subtopics.style.maxHeight = "0px"; // Reset max-height to ensure proper transition
+                subtopics.classList.add('open');
+                requestAnimationFrame(() => {
+                    subtopics.style.transition = "max-height 0.2s ease";
+                    subtopics.style.maxHeight = `${subtopics.scrollHeight}px`;
+                });
 
-            subtopics.classList.toggle('open');
-            caret.classList.toggle('open');
+                caret.classList.add('open');
+            } else {
+                // Close the clicked topic (if already open)
+                subtopics.style.maxHeight = `${subtopics.scrollHeight}px`; // Ensure correct height is set before collapsing
+                requestAnimationFrame(() => {
+                    subtopics.style.transition = "max-height 0.2s ease";
+                    subtopics.style.maxHeight = "0px";
+                    subtopics.classList.remove('open');
+                });
+
+                caret.classList.remove('open');
+            }
         }
+
 
         function updateFileProgress(topic, file, isChecked, category) {
             fetch("/update_progress", {
