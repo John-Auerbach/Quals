@@ -44,7 +44,7 @@
         }
         .overall-progress {
             height: 10px;
-            background-color: #4caf50;
+            background-color: var(--progress-color, #4caf50);
             transition: width 0.3s ease;
         }
         .cover-image {
@@ -105,7 +105,7 @@
         }
         .progress {
             height: 10px;
-            background-color: #4caf50;
+            background-color: var(--progress-color, #4caf50);
             transition: width 0.3s ease;
         }
 
@@ -151,7 +151,7 @@
         }
     </style>
 </head>
-<body>
+<body style="--progress-color: {% if subject == 'Fluids' %}#FFA500{% elif subject == 'Math' %}#800080{% elif subject == 'Dynamics' %}#0000FF{% elif subject == 'Structures' %}#FF0000{% else %}#4caf50{% endif %};">
     <div class="header">
         <a href="/">← Back to Dashboard</a>
     </div>
@@ -337,8 +337,20 @@
                 name: topic.name,
                 completedFiles: topic.completed_files,
                 totalFiles: topic.total_files,
-                currentRadius: topic.completed_files / topic.total_files * radius
+                currentRadius: (topic.completed_files / topic.total_files) * radius || 0
             }));
+
+            function getColorForSubject(subject) {
+                switch (subject) {
+                    case 'Fluids': return '#FFA500'; // Orange
+                    case 'Math': return '#800080'; // Purple
+                    case 'Dynamics': return '#0000FF'; // Blue
+                    case 'Structures': return '#FF0000'; // Red
+                    default: return '#4caf50'; // Default green
+                }
+            }
+
+            const progressColor = getColorForSubject("{{ subject }}");
 
             function animateGrowth(index, startRadius, targetRadius) {
                 let step = 0;
@@ -361,23 +373,14 @@
                         ctx.fillStyle = '#333';
                         ctx.fill();
 
-                        // Draw the completed progress slice for the active topic
-                        if (idx === index) {
-                            ctx.beginPath();
-                            ctx.moveTo(centerX, centerY);
-                            ctx.arc(centerX, centerY, radiusProgress, startAngle, startAngle + sliceAngle);
-                            ctx.closePath();
-                            ctx.fillStyle = '#4caf50';
-                            ctx.fill();
-                        } else {
-                            const progressRadius = topic.currentRadius;
-                            ctx.beginPath();
-                            ctx.moveTo(centerX, centerY);
-                            ctx.arc(centerX, centerY, progressRadius, startAngle, startAngle + sliceAngle);
-                            ctx.closePath();
-                            ctx.fillStyle = '#4caf50';
-                            ctx.fill();
-                        }
+                        // Draw the animated progress slice for the active topic
+                        const progressRadius = idx === index ? radiusProgress : topic.currentRadius;
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        ctx.arc(centerX, centerY, progressRadius, startAngle, startAngle + sliceAngle);
+                        ctx.closePath();
+                        ctx.fillStyle = progressColor;
+                        ctx.fill();
 
                         // Add topic labels
                         const midAngle = startAngle + sliceAngle / 2;
@@ -402,6 +405,7 @@
                 animateStep();
             }
 
+            // Add event listener for checkbox changes to animate the pie chart
             document.addEventListener('change', (event) => {
                 if (event.target.classList.contains('subtopic-checkbox')) {
                     const topicName = event.target.getAttribute('data-topic');
@@ -437,7 +441,7 @@
                 ctx.moveTo(centerX, centerY);
                 ctx.arc(centerX, centerY, progressRadius, startAngle, startAngle + sliceAngle);
                 ctx.closePath();
-                ctx.fillStyle = '#4caf50';
+                ctx.fillStyle = progressColor;
                 ctx.fill();
 
                 // Add topic labels
@@ -453,6 +457,8 @@
                 startAngle += sliceAngle;
             });
         }
+
+
 
 
 

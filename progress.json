@@ -19,12 +19,12 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 20,
+            "overall": 60,
             "notes": {
-                "notes.pdf": false
+                "notes.pdf": true
             },
             "practice": {
-                "problems.pdf": false
+                "problems.pdf": true
             },
             "exam": {
                 "solutions.pdf": true,
@@ -36,9 +36,9 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": true,
-            "overall": 33,
+            "overall": 66,
             "notes": {
-                "notes.pdf": false
+                "notes.pdf": true
             },
             "practice": {
                 "problems.pdf": false
@@ -69,14 +69,14 @@
                 "notes.pdf": true
             },
             "practice": {
-                "problems.pdf": false
+                "problems.pdf": true
             },
             "exam": {
                 "solutions - Copy (2).pdf": false,
                 "solutions - Copy.pdf": false,
                 "solutions.pdf": false
             },
-            "overall": 20
+            "overall": 40
         }
     },
     "Structures": {
@@ -88,17 +88,17 @@
                 "problems.pdf": false
             },
             "exam": {
-                "solutions - Copy (2).pdf": false,
+                "solutions - Copy (2).pdf": true,
                 "solutions - Copy.pdf": false,
                 "solutions.pdf": false
             },
-            "overall": 0
+            "overall": 20
         }
     },
     "Dynamics": {
         "method of variations": {
             "notes": {
-                "notes.pdf": false
+                "notes.pdf": true
             },
             "practice": {
                 "problems.pdf": false
@@ -108,7 +108,7 @@
                 "solutions - Copy.pdf": false,
                 "solutions.pdf": false
             },
-            "overall": 0
+            "overall": 20
         }
     }
 }
