@@ -23,8 +23,9 @@ def save_progress():
 def dashboard():
     subjects = ["Fluids", "Math", "Dynamics", "Structures"]
     overall_progress = {}
+    total_completed = 0
+    total_boxes = 0
 
-    # Calculate overall progress for each subject
     for subject in subjects:
         if subject in progress:
             subject_progress = [
@@ -35,10 +36,22 @@ def dashboard():
             overall_progress[subject] = (
                 int(sum(subject_progress) / len(subject_progress)) if subject_progress else 0
             )
+
+            # Count completed and total boxes for overall calculation
+            for topic, topic_data in progress[subject].items():
+                if isinstance(topic_data, dict):
+                    for category, files in topic_data.items():
+                        if isinstance(files, dict):
+                            total_boxes += len(files)
+                            total_completed += sum(1 for completed in files.values() if completed)
+
         else:
             overall_progress[subject] = 0
 
-    return render_template("dashboard.html", subjects=subjects, overall_progress=overall_progress)
+    # Calculate overall progress percentage
+    overall_percentage = int((total_completed / total_boxes) * 100) if total_boxes else 0
+
+    return render_template("dashboard.html", subjects=subjects, overall_progress=overall_progress, overall_percentage=overall_percentage)
 
 @app.route("/subject/<subject>")
 def subject_page(subject):
