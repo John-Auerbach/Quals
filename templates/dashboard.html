@@ -101,7 +101,7 @@
 </head>
 <body>
     <img src="/static/cover.jpg" alt="Cover Image" class="cover-image">
-    <h1>PhD Qualifying Exam</h1>
+    <h1>PSU AERSP Qualifying Exam</h1>
     <div class="dashboard-container">
         {% for subject in subjects %}
         <a href="/subject/{{ subject }}" class="card">
@@ -141,16 +141,23 @@
         </div>
     </div>
 
+    <div style="margin-top: 40px;">
+        <a href="/exam_topics" target="_blank" style="color: #4caf50; text-decoration: none; font-weight: bold;">
+            View Exam Topics (PDF)
+        </a>
+    </div>
+    
+
     <script>
-        const targetDate = new Date("October 1, 2025 00:00:00").getTime();
+        const targetDate = new Date("2025-10-01T04:00:00Z").getTime(); // 12:00 AM EST is 4:00 AM UTC
 
         function updateCountdown() {
-            const now = new Date().getTime();
+            const now = new Date().getTime(); // Current time in milliseconds
             const distance = targetDate - now;
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60)) / (1000 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             document.getElementById("days").textContent = days;
@@ -164,7 +171,7 @@
             }
         }
 
-        const countdownInterval = setInterval(updateCountdown, 1000);
+const countdownInterval = setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>

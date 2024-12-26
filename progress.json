@@ -19,17 +19,17 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 100,
+            "overall": 20,
             "notes": {
-                "notes.pdf": true
+                "notes.pdf": false
             },
             "practice": {
-                "problems.pdf": true
+                "problems.pdf": false
             },
             "exam": {
                 "solutions.pdf": true,
-                "solutions - Copy (2).pdf": true,
-                "solutions - Copy.pdf": true
+                "solutions - Copy (2).pdf": false,
+                "solutions - Copy.pdf": false
             }
         },
         "lift_and_drag": {

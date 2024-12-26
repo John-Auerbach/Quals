@@ -186,7 +186,8 @@
                                data-file="{{ file }}" 
                                {% if progress.get(subject, {}).get(topic.name, {}).get('notes', {}).get(file, False) %}checked{% endif %}
                                onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'notes')">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Notes/{{ file }}">{{ file }}</a>
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Notes/{{ file }}" target="_blank">{{ file }}</a>
+
                     </li>
                     {% endfor %}
                 </ul>
@@ -200,8 +201,7 @@
                                data-file="{{ file }}" 
                                {% if progress.get(subject, {}).get(topic.name, {}).get('practice', {}).get(file, False) %}checked{% endif %}
                                onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'practice')">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Practice/{{ file }}">{{ file }}</a>
-                    </li>
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Practice/{{ file }}" target="_blank">{{ file }}</a>
                     {% endfor %}
                 </ul>
                 <div class="subtopic-category">Exam</div>
@@ -214,7 +214,7 @@
                                data-file="{{ file }}" 
                                {% if progress.get(subject, {}).get(topic.name, {}).get('exam', {}).get(file, False) %}checked{% endif %}
                                onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'exam')">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Exam/{{ file }}">{{ file }}</a>
+                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Exam/{{ file }}" target="_blank">{{ file }}</a>
                     </li>
                     {% endfor %}
                 </ul>

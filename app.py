@@ -53,6 +53,10 @@ def dashboard():
 
     return render_template("dashboard.html", subjects=subjects, overall_progress=overall_progress, overall_percentage=overall_percentage)
 
+@app.route("/exam_topics")
+def exam_topics():
+    return send_from_directory(directory="study_materials", path="Exam_Topics.pdf", as_attachment=False)
+
 @app.route("/subject/<subject>")
 def subject_page(subject):
     subject_dir = os.path.join(STUDY_MATERIALS_DIR, subject.lower())
@@ -108,7 +112,7 @@ def subject_page(subject):
 def download_file(subject, topic, category, file):
     directory = os.path.join(STUDY_MATERIALS_DIR, subject.lower(), topic, category.capitalize())
     if os.path.exists(os.path.join(directory, file)):
-        return send_from_directory(directory=directory, path=file, as_attachment=True)
+        return send_from_directory(directory=directory, path=file, as_attachment=False)
     else:
         return "File not found.", 404
 
