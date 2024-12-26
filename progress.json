@@ -19,7 +19,7 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 40,
+            "overall": 80,
             "notes": {
                 "notes.pdf": true
             },
@@ -28,8 +28,8 @@
             },
             "exam": {
                 "solutions.pdf": false,
-                "solutions - Copy (2).pdf": false,
-                "solutions - Copy.pdf": false
+                "solutions - Copy (2).pdf": true,
+                "solutions - Copy.pdf": true
             }
         },
         "lift_and_drag": {

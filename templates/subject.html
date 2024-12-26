@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -79,7 +79,7 @@
             padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
         .topic:hover {
             background-color: #3a3a3a;
@@ -109,17 +109,15 @@
             transition: width 0.3s ease;
         }
 
-        /* Updated Subtopics Animation */
+        /* Smooth Subtopics Animation */
         .subtopics {
             max-height: 0;
             overflow: hidden;
-            margin-top: 10px;
             margin-left: 30px;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            transition: max-height 0.3s ease;
         }
         .subtopics.open {
             max-height: 1000px; /* Adjust as needed for smooth transition */
-            padding: 10px 0;
         }
 
         .subtopic-category {
