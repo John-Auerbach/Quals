@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -227,6 +227,21 @@
         function toggleSubtopics(topic) {
             const subtopics = document.getElementById(`subtopics-${topic}`);
             const caret = document.getElementById(`caret-${topic}`);
+            const allSubtopics = document.querySelectorAll('.subtopics');
+            const allCarets = document.querySelectorAll('.caret');
+
+            allSubtopics.forEach(st => {
+                if (st !== subtopics) {
+                    st.classList.remove('open');
+                }
+            });
+
+            allCarets.forEach(c => {
+                if (c !== caret) {
+                    c.classList.remove('open');
+                }
+            });
+
             subtopics.classList.toggle('open');
             caret.classList.toggle('open');
         }
