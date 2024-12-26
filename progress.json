@@ -62,5 +62,53 @@
                 "solutions.pdf": false
             }
         }
+    },
+    "Math": {
+        "method of frobenius": {
+            "notes": {
+                "notes.pdf": true
+            },
+            "practice": {
+                "problems.pdf": false
+            },
+            "exam": {
+                "solutions - Copy (2).pdf": false,
+                "solutions - Copy.pdf": false,
+                "solutions.pdf": false
+            },
+            "overall": 20
+        }
+    },
+    "Structures": {
+        "beam analysis": {
+            "notes": {
+                "notes.pdf": false
+            },
+            "practice": {
+                "problems.pdf": false
+            },
+            "exam": {
+                "solutions - Copy (2).pdf": false,
+                "solutions - Copy.pdf": false,
+                "solutions.pdf": false
+            },
+            "overall": 0
+        }
+    },
+    "Dynamics": {
+        "method of variations": {
+            "notes": {
+                "notes.pdf": false
+            },
+            "practice": {
+                "problems.pdf": false
+            },
+            "exam": {
+                "solutions - Copy (2).pdf": false,
+                "solutions - Copy.pdf": false,
+                "solutions.pdf": false
+            },
+            "overall": 0
+        }
     }
 }
