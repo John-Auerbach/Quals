@@ -1,0 +1,31 @@
+{
+    "short_name": "Quals",
+    "name": "Quals",
+    "icons": [
+      {
+        "src": "/static/fluids.jpg",
+        "type": "image/jpeg",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/static/dynamics.jpg",
+        "type": "image/jpeg",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/static/math.jpg",
+        "type": "image/jpeg",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/static/structures.jpg",
+        "type": "image/jpeg",
+        "sizes": "192x192"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  
