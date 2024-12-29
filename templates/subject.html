@@ -69,6 +69,13 @@
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
             max-width: 600px;
+            flex: 1; /* Allow the container to expand */
+        }
+        .layout-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 20px;
         }
         .topics-container {
             width: 100%;
@@ -150,16 +157,18 @@
             margin-right: 10px;
         }
         .chart-container {
-            position: absolute;
-            right: 12%;
-            top: 350px;
             width: 500px;
             height: 500px;
+            margin-left: 20px;
+            flex-shrink: 0; /* Prevent shrinking of the pie chart */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body style="--progress-color: {% if subject == 'Fluids' %}#FFB347{% elif subject == 'Math' %}#9B59B6{% elif subject == 'Dynamics' %}#4682B4{% elif subject == 'Structures' %}#FF6961{% else %}#4caf50{% endif %};">
-    <div class="header">
+    <div class="header"> 
         <a href="/">← Back to Dashboard</a>
     </div>
     <img src="/static/{{ subject.lower() }}.jpg" alt="{{ subject }} Cover" class="cover-image">
@@ -169,68 +178,69 @@
             <div id="overall-progress" class="overall-progress" style="width: 0%;"></div>
         </div>
     </div>
-    <div class="content-container">
-        <div class="topics-title">Topics</div>
-        <div class="topics-container">
-            {% for topic in topics %}
-            <div class="topic" onclick="toggleSubtopics('{{ topic.name }}')">
-                <div class="topic-title">
-                    <span class="caret" id="caret-{{ topic.name }}">▶</span>
-                    {{ topic.name }}
+    <div class="layout-container">
+        <div class="content-container">
+            <div class="topics-title">Topics</div>
+            <div class="topics-container">
+                {% for topic in topics %}
+                <div class="topic" onclick="toggleSubtopics('{{ topic.name }}')">
+                    <div class="topic-title">
+                        <span class="caret" id="caret-{{ topic.name }}">▶</span>
+                        {{ topic.name }}
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-{{ topic.name }}" class="progress" style="width: {{ topic.progress }}%;"></div>
+                    </div>
                 </div>
-                <div class="progress-bar">
-                    <div id="progress-{{ topic.name }}" class="progress" style="width: {{ topic.progress }}%;"></div>
+                <div id="subtopics-{{ topic.name }}" class="subtopics">
+                    <div class="subtopic-category">Notes</div>
+                    <ul>
+                        {% for file in topic.notes %}
+                        <li>
+                            <input type="checkbox" 
+                                   class="subtopic-checkbox" 
+                                   data-topic="{{ topic.name }}" 
+                                   data-file="{{ file }}" 
+                                   {% if progress.get(subject, {}).get(topic.name, {}).get('notes', {}).get(file, False) %}checked{% endif %}
+                                   onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'notes')">
+                            <a href="/download/{{ subject | lower }}/{{ topic.name }}/Notes/{{ file }}" target="_blank">{{ file }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="subtopic-category">Practice</div>
+                    <ul>
+                        {% for file in topic.practice %}
+                        <li>
+                            <input type="checkbox" 
+                                   class="subtopic-checkbox" 
+                                   data-topic="{{ topic.name }}" 
+                                   data-file="{{ file }}" 
+                                   {% if progress.get(subject, {}).get(topic.name, {}).get('practice', {}).get(file, False) %}checked{% endif %}
+                                   onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'practice')">
+                            <a href="/download/{{ subject | lower }}/{{ topic.name }}/Practice/{{ file }}" target="_blank">{{ file }}</a>
+                        {% endfor %}
+                    </ul>
+                    <div class="subtopic-category">Exam</div>
+                    <ul>
+                        {% for file in topic.exam %}
+                        <li>
+                            <input type="checkbox" 
+                                   class="subtopic-checkbox" 
+                                   data-topic="{{ topic.name }}" 
+                                   data-file="{{ file }}" 
+                                   {% if progress.get(subject, {}).get(topic.name, {}).get('exam', {}).get(file, False) %}checked{% endif %}
+                                   onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'exam')">
+                            <a href="/download/{{ subject | lower }}/{{ topic.name }}/Exam/{{ file }}" target="_blank">{{ file }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
+                {% endfor %}
             </div>
-            <div id="subtopics-{{ topic.name }}" class="subtopics">
-                <div class="subtopic-category">Notes</div>
-                <ul>
-                    {% for file in topic.notes %}
-                    <li>
-                        <input type="checkbox" 
-                               class="subtopic-checkbox" 
-                               data-topic="{{ topic.name }}" 
-                               data-file="{{ file }}" 
-                               {% if progress.get(subject, {}).get(topic.name, {}).get('notes', {}).get(file, False) %}checked{% endif %}
-                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'notes')">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Notes/{{ file }}" target="_blank">{{ file }}</a>
-
-                    </li>
-                    {% endfor %}
-                </ul>
-                <div class="subtopic-category">Practice</div>
-                <ul>
-                    {% for file in topic.practice %}
-                    <li>
-                        <input type="checkbox" 
-                               class="subtopic-checkbox" 
-                               data-topic="{{ topic.name }}" 
-                               data-file="{{ file }}" 
-                               {% if progress.get(subject, {}).get(topic.name, {}).get('practice', {}).get(file, False) %}checked{% endif %}
-                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'practice')">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Practice/{{ file }}" target="_blank">{{ file }}</a>
-                    {% endfor %}
-                </ul>
-                <div class="subtopic-category">Exam</div>
-                <ul>
-                    {% for file in topic.exam %}
-                    <li>
-                        <input type="checkbox" 
-                               class="subtopic-checkbox" 
-                               data-topic="{{ topic.name }}" 
-                               data-file="{{ file }}" 
-                               {% if progress.get(subject, {}).get(topic.name, {}).get('exam', {}).get(file, False) %}checked{% endif %}
-                               onchange="updateFileProgress('{{ topic.name }}', '{{ file }}', this.checked, 'exam')">
-                        <a href="/download/{{ subject | lower }}/{{ topic.name }}/Exam/{{ file }}" target="_blank">{{ file }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endfor %}
         </div>
-    </div>
-    <div class="chart-container">
-        <canvas id="progressPieChart" width="550" height="550"></canvas>
+        <div class="chart-container">
+            <canvas id="progressPieChart" width="550" height="550"></canvas>
+        </div>
     </div>
     <script>
         let animationFrame;

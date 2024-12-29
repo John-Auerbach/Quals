@@ -19,12 +19,12 @@
             "notes.pdf": true,
             "problems.pdf": true,
             "solutions.pdf": false,
-            "overall": 60,
+            "overall": 20,
             "notes": {
-                "notes.pdf": true
+                "notes.pdf": false
             },
             "practice": {
-                "problems.pdf": true
+                "problems.pdf": false
             },
             "exam": {
                 "solutions.pdf": true,
